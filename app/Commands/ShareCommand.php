@@ -27,6 +27,7 @@ class ShareCommand extends ServerAwareCommand
         }
 
         $domain = config('expose.default_domain');
+        $subdomain = config('expose.default_subdomain');
 
         if (! is_null($this->option('server'))) {
             $domain = null;
@@ -38,13 +39,17 @@ class ShareCommand extends ServerAwareCommand
 
         if (! is_null($this->option('subdomain'))) {
             $subdomains = explode(',', $this->option('subdomain'));
-            $this->info('Trying to use custom domain: '.$subdomains[0].PHP_EOL, OutputInterface::VERBOSITY_VERBOSE);
+        } else if (! is_null($subdomain)) {
+            $subdomains = [$subdomain];
         } else {
-            $host = Str::beforeLast($this->argument('host'), '.');
+            /*$host = Str::beforeLast($this->argument('host'), '.');
             $host = str_replace('https://', '', $host);
             $host = str_replace('http://', '', $host);
             $host = Str::beforeLast($host, ':');
-            $subdomains = [Str::slug($host)];
+            $subdomains = [Str::slug($host)];*/
+        }
+
+        if (count($subdomains)) {
             $this->info('Trying to use custom domain: '.$subdomains[0].PHP_EOL, OutputInterface::VERBOSITY_VERBOSE);
         }
 
