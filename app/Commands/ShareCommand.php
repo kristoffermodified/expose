@@ -41,13 +41,14 @@ class ShareCommand extends ServerAwareCommand
             $subdomains = explode(',', $this->option('subdomain'));
         } else if (! is_null($subdomain)) {
             $subdomains = [$subdomain];
-        } else {
+		} else {
+			$subdomains = [''];
             /*$host = Str::beforeLast($this->argument('host'), '.');
             $host = str_replace('https://', '', $host);
             $host = str_replace('http://', '', $host);
             $host = Str::beforeLast($host, ':');
             $subdomains = [Str::slug($host)];*/
-        }
+		}
 
         if (count($subdomains)) {
             $this->info('Trying to use custom domain: '.$subdomains[0].PHP_EOL, OutputInterface::VERBOSITY_VERBOSE);
